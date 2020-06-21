@@ -93,18 +93,17 @@
       
    <form method="post" enctype="multipart/form-data" >
     <div>
-			<img src="test.png" alt="Girl in a jacket" id="test1">
+			<img src="test.png" alt="Girl in a jacket" id="test1" style="width: 80px; height: 80px;">
 			<div class="checkbox">
 
 				<label for="test1">
 					<input type="checkbox" value="test.png" name="image">
 				</label>
-
 				
 			</div>
 		</div>
 		<div>
-			<img src="test.png" alt="Girl in a jacket" id="test2">
+			<img src="test.png" alt="Girl in a jacket" id="test2" style="width: 80px; height: 80px;">
 
 			<div class="checkbox">
 

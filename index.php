@@ -32,10 +32,10 @@
 	$font_path = __DIR__.'/D-DINCondensed-Bold.otf';
 	
 	// Set Text to Be Printed On Image
-	$text ="Welcome To Talkerscode";
+	$text ="LANUNCHING SOON!";
 	
 	
-	$fontSize=32;
+	$fontSize=24;
 	$angle=0;
 	$left=125;
 	$marginLeft = 20;
@@ -53,9 +53,9 @@
 	imagettftext($our_image, $fontSize, $angle, $left, $top, $white_color, $font_path, $text);
 
 
-	$text2 = "Here is Text2";
+	$text2 = "SUBSCRIBE TO UPDATES";
 	$top2 = $top + imagefontheight(32) + $textSpacing;
-	$fontSize2 = 24;
+	$fontSize2 = 32;
 
 	$dimensions2 = imagettfbbox($fontSize2, $angle, $font_path, $text2);
 	$textWidth2 = abs($dimensions2[4] - $dimensions2[0]);

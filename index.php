@@ -41,7 +41,7 @@
 	$marginLeft = 20;
 	$marginTop = 50;
 	$top = $height/2 + $marginTop;
-	$textSpacing = 50;
+	$textSpacing = 30;
 	
 	
 	
@@ -51,6 +51,22 @@
 	
 	// Print Text On Image
 	imagettftext($our_image, $fontSize, $angle, $left, $top, $white_color, $font_path, $text);
+
+
+	$text2 = "Here is Text2";
+	$top2 = $top + imagefontheight(32) + $textSpacing;
+	$fontSize2 = 24;
+
+	$dimensions2 = imagettfbbox($fontSize2, $angle, $font_path, $text2);
+	$textWidth2 = abs($dimensions2[4] - $dimensions2[0]);
+	$left2 = imagesx($our_image) - $textWidth2 - $marginLeft;
+
+
+
+	// Print Second Text On Image
+	imagettftext($our_image, $fontSize2, $angle, $left2, $top2, $white_color, $font_path, $text2);
+
+
 	// Send Image to Browser
 	imagepng($our_image);
 	

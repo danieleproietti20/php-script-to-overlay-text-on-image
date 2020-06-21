@@ -47,8 +47,6 @@
 		$top = $height/2 + $marginTop;
 		$textSpacing = 30;
 		
-		
-		
 		$dimensions = imagettfbbox($fontSize, $angle, $font_path, $text);
 		$textWidth = abs($dimensions[4] - $dimensions[0]);
 		$left = imagesx($our_image) - $textWidth - $marginLeft;
@@ -70,6 +68,20 @@
 		// Print Second Text On Image
 		imagettftext($our_image, $fontSize2, $angle, $left2, $top2, $white_color, $font_path, $text2);
 
+
+
+		$logo_image = imagecreatefromjpeg("./logo.jpeg");
+
+		$logo_x = $width - (imagesx($logo_image) + $marginLeft);
+		$logo_y = $top2 + $textSpacing;
+		imagecopy(
+			$our_image, $logo_image,
+			$logo_x,
+			$logo_y,
+			0, 
+			0, 
+			imagesx($logo_image), imagesy($logo_image)
+		);
 
 		// Send Image to Browser
 		imagepng($our_image);

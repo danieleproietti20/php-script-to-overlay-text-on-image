@@ -69,8 +69,10 @@
 		imagettftext($our_image, $fontSize2, $angle, $left2, $top2, $white_color, $font_path, $text2);
 
 
+		$origin_logo_image = imagecreatefromjpeg("./logo.jpeg");
+		$logo_image = imagecreatetruecolor(imagesx($origin_logo_image)/2, imagesy($origin_logo_image)/2);
 
-		$logo_image = imagecreatefromjpeg("./logo.jpeg");
+		imageCopyResampled($logo_image, $origin_logo_image, 0, 0, 0, 0, imagesx($origin_logo_image)/2, imagesy($origin_logo_image)/2, imagesx($origin_logo_image), imagesy($origin_logo_image));
 
 		$logo_x = $width - (imagesx($logo_image) + $marginLeft);
 		$logo_y = $top2 + $textSpacing;

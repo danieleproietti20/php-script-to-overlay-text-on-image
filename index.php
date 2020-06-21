@@ -2,30 +2,11 @@
 	// Stage 1: Replicate the first image style
 	// Stage 2: Replicate the first image style, with the user able to select different background images.
 	// Stage 3: Introduce a second image style, with different background images.
-	if(isset($_FILES['image'])){
+	if (isset($_POST['submit'])) {
 
-			$errors= array();
-			$file_name = $_FILES['image']['name'];
-			$file_size =$_FILES['image']['size'];
-			$file_tmp =$_FILES['image']['tmp_name'];
-			$file_type=$_FILES['image']['type'];
+
+		$file_name = $_POST['image'];
 			// $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
-			
-			// $extensions= array("jpeg","jpg","png");
-			
-			// if(in_array($file_ext,$extensions)=== false){
-			//    $errors[]="extension not allowed, please choose a JPEG or PNG file.";
-			// }
-			
-			if($file_size > 2097152){
-				$errors[]='File size must be excately 2 MB';
-			}
-			
-			if(empty($errors)==true){
-				move_uploaded_file($file_tmp,"images/".$file_name);
-			}else{
-				print_r($errors);
-			}
 
 
 		header('Content-type: image/png');
@@ -110,10 +91,31 @@
 <html>
    <body>
       
-      <form action="" method="POST" enctype="multipart/form-data">
-         <input type="file" name="image" />
-         <input type="submit"/>
-      </form>
+   <form method="post" enctype="multipart/form-data" >
+    <div>
+			<img src="test.png" alt="Girl in a jacket" id="test1">
+			<div class="checkbox">
+
+				<label for="test1">
+					<input type="checkbox" value="test.png" name="image">
+				</label>
+
+				
+			</div>
+		</div>
+		<div>
+			<img src="test.png" alt="Girl in a jacket" id="test2">
+
+			<div class="checkbox">
+
+				<label for="test2">
+					<input type="checkbox" value="test.png" name="image">
+				</label>
+
+			</div>
+		</div>
+		<button type="submit" name="submit">Submit</button>
+	</form>
       
    </body>
 </html>

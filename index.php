@@ -12,7 +12,7 @@ $height;
 $width;
 $top;
 $top2;
-$marginLeft = 20;
+$marginLeft = 40;
 
 if (isset($_POST['submit'])) {
 

@@ -3,9 +3,9 @@
 // Stage 2: Replicate the first image style, with the user able to select different background images.
 // Stage 3: Introduce a second image style, with different background images.
 
-$textSpacing = 30;
-$text = "LANUNCHING SOON!";
-$text2 = "SUBSCRIBE TO UPDATES";
+$textSpacing = 60;
+$top_text = "LANUNCHING SOON!";
+$bottom_text = "SUBSCRIBE TO UPDATES";
 
 $our_image;
 $height;
@@ -18,6 +18,9 @@ if (isset($_POST['submit'])) {
 
     $file_name = $_POST['path'];
     $type = $_POST['type'];
+
+    $top_text = strtoupper($_POST['top_text']);
+    $bottom_text = strtoupper($_POST['bottom_text']);
 
     // var_dump($file_name);
     // var_dump($type);
@@ -62,28 +65,28 @@ if (isset($_POST['submit'])) {
         $font_path = __DIR__ . '/D-DINCondensed-Bold.otf';
 
         // Set Text to Be Printed On Image
-        $fontSize = 24;
+        $fontSize = 48;
         $angle = 0;
         $left = 125;
-        $marginTop = 50;
+        $marginTop = 100;
         $top = $GLOBALS['height'] / 2 + $marginTop;
 
-        $dimensions = imagettfbbox($fontSize, $angle, $font_path, $GLOBALS['text']);
+        $dimensions = imagettfbbox($fontSize, $angle, $font_path, $GLOBALS['top_text']);
         $textWidth = abs($dimensions[4] - $dimensions[0]);
         $left = imagesx($GLOBALS['our_image']) - $textWidth - $GLOBALS['marginLeft'];
 
         // Print Text On Image
-        imagettftext($GLOBALS['our_image'], $fontSize, $angle, $left, $top, $white_color, $font_path, $GLOBALS['text']);
+        imagettftext($GLOBALS['our_image'], $fontSize, $angle, $left, $top, $white_color, $font_path, $GLOBALS['top_text']);
 
-        $GLOBALS['top2'] = $top + imagefontheight(32) + $GLOBALS['textSpacing'];
-        $fontSize2 = 32;
+        $GLOBALS['top2'] = $top + imagefontheight($fontSize) + $GLOBALS['textSpacing'];
+        $fontSize2 = 60;
 
-        $dimensions2 = imagettfbbox($fontSize2, $angle, $font_path, $GLOBALS['text2']);
+        $dimensions2 = imagettfbbox($fontSize2, $angle, $font_path, $GLOBALS['bottom_text']);
         $textWidth2 = abs($dimensions2[4] - $dimensions2[0]);
         $left2 = imagesx($GLOBALS['our_image']) - $textWidth2 - $GLOBALS['marginLeft'];
 
         // Print Second Text On Image
-        imagettftext($GLOBALS['our_image'], $fontSize2, $angle, $left2, $GLOBALS['top2'], $white_color, $font_path, $GLOBALS['text2']);
+        imagettftext($GLOBALS['our_image'], $fontSize2, $angle, $left2, $GLOBALS['top2'], $white_color, $font_path, $GLOBALS['bottom_text']);
     }
 
     function drawLogoOnImage()
@@ -110,7 +113,7 @@ if (isset($_POST['submit'])) {
 
     drawRectangle();
     drawTextOnImage();
-    drawLogoOnImage();
+    // drawLogoOnImage();
 
     // Send Image to Browser
     imagepng($our_image);
@@ -124,6 +127,16 @@ if (isset($_POST['submit'])) {
    <body>
 
    <form method="post" enctype="multipart/form-data" >
+   <label for="top_text">
+   <span>Top Text</span>
+		<input type="text" value="" name="top_text" id="top_text">
+	</label>
+	<label for="bottom_text">
+	<span>Bottom Text</span>
+		<input type="text" value="" name="bottom_text" id="bottom_text">
+	</label>
+
+   <div style="display:flex">
    <?php
 $imagesDirectory = "image_folder/";
 
@@ -136,11 +149,11 @@ if (is_dir($imagesDirectory)) {
         }
 
         $imgFileType = pathinfo($image, PATHINFO_EXTENSION);
-
-        $imagePath = $imagesDirectory . $image;
-        ?>
-			<div>
-				<img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="width: 80px; height: 80px;">
+        if (($imgFileType == 'jpg') || ($imgFileType == 'png')) {
+            $imagePath = $imagesDirectory . $image;
+            ?>
+			<div style="padding: 5px">
+				<img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="width: 200px; height: 200px;">
 				<div class="checkbox">
 					<label for="test1">
 						<input type="checkbox" value="<?php echo $imagePath; ?>" name="path">
@@ -150,12 +163,14 @@ if (is_dir($imagesDirectory)) {
 			</div>
 			<?php
 }
+    }
 
     closedir($opendirectory);
 
 }
 ?>
-		<button type="submit" name="submit">Submit</button>
+</div>
+		<button type="submit" name="submit">Convert</button>
 	</form>
 
    </body>

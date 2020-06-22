@@ -3,7 +3,7 @@
 // Stage 2: Replicate the first image style, with the user able to select different background images.
 // Stage 3: Introduce a second image style, with different background images.
 
-$textSpacing = 60;
+$textSpacing = 70;
 $top_text = "LANUNCHING SOON!";
 $bottom_text = "SUBSCRIBE TO UPDATES";
 
@@ -62,7 +62,8 @@ if (isset($_POST['submit'])) {
         $white_color = imagecolorallocate($GLOBALS['our_image'], 255, 255, 255);
 
         // Set Path to Font File
-        $font_path = __DIR__ . '/D-DINCondensed-Bold.otf';
+        $top_text_font_path = __DIR__ . '/fonts/D-DINCondensed.otf';
+        $bottom_text_font_path = __DIR__ . '/fonts/D-DINCondensed-Bold.otf';
 
         // Set Text to Be Printed On Image
         $fontSize = 48;
@@ -71,22 +72,22 @@ if (isset($_POST['submit'])) {
         $marginTop = 100;
         $top = $GLOBALS['height'] / 2 + $marginTop;
 
-        $dimensions = imagettfbbox($fontSize, $angle, $font_path, $GLOBALS['top_text']);
+        $dimensions = imagettfbbox($fontSize, $angle, $top_text_font_path, $GLOBALS['top_text']);
         $textWidth = abs($dimensions[4] - $dimensions[0]);
         $left = imagesx($GLOBALS['our_image']) - $textWidth - $GLOBALS['marginLeft'];
 
         // Print Text On Image
-        imagettftext($GLOBALS['our_image'], $fontSize, $angle, $left, $top, $white_color, $font_path, $GLOBALS['top_text']);
+        imagettftext($GLOBALS['our_image'], $fontSize, $angle, $left, $top, $white_color, $top_text_font_path, $GLOBALS['top_text']);
 
         $GLOBALS['top2'] = $top + imagefontheight($fontSize) + $GLOBALS['textSpacing'];
         $fontSize2 = 60;
 
-        $dimensions2 = imagettfbbox($fontSize2, $angle, $font_path, $GLOBALS['bottom_text']);
+        $dimensions2 = imagettfbbox($fontSize2, $angle, $bottom_text_font_path, $GLOBALS['bottom_text']);
         $textWidth2 = abs($dimensions2[4] - $dimensions2[0]);
         $left2 = imagesx($GLOBALS['our_image']) - $textWidth2 - $GLOBALS['marginLeft'];
 
         // Print Second Text On Image
-        imagettftext($GLOBALS['our_image'], $fontSize2, $angle, $left2, $GLOBALS['top2'], $white_color, $font_path, $GLOBALS['bottom_text']);
+        imagettftext($GLOBALS['our_image'], $fontSize2, $angle, $left2, $GLOBALS['top2'], $white_color, $bottom_text_font_path, $GLOBALS['bottom_text']);
     }
 
     function drawLogoOnImage()

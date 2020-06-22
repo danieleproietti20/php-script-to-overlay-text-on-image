@@ -130,11 +130,11 @@ if (isset($_POST['submit'])) {
    <form method="post" enctype="multipart/form-data" >
    <label for="top_text">
    <span>Top Text</span>
-		<input type="text" value="" name="top_text" id="top_text">
+		<input type="text" value="" name="top_text" id="top_text" required>
 	</label>
 	<label for="bottom_text">
 	<span>Bottom Text</span>
-		<input type="text" value="" name="bottom_text" id="bottom_text">
+		<input type="text" value="" name="bottom_text" id="bottom_text" required>
 	</label>
 
    <div style="display:flex">

@@ -16,12 +16,33 @@ $marginLeft = 20;
 
 if (isset($_POST['submit'])) {
 
-    $file_name = $_POST['image'];
+    $file_name = $_POST['path'];
+    $type = $_POST['type'];
 
-    header('Content-type: image/png');
+    // var_dump($file_name);
+    // var_dump($type);
+    // exit;
 
-    // Load And Create Image From Source
-    $GLOBALS['our_image'] = imagecreatefrompng("./images/" . $file_name);
+    if ($type == 'jpg') {
+        header('Content-type: image/jpeg');
+
+        // Load And Create Image From Source
+        $GLOBALS['our_image'] = imagecreatefromjpeg("./" . $file_name);
+    }
+
+    if ($type == 'jpeg') {
+        header('Content-type: image/jpeg');
+
+        // Load And Create Image From Source
+        $GLOBALS['our_image'] = imagecreatefromjpeg("./" . $file_name);
+    }
+
+    if ($type == 'png') {
+        header('Content-type: image/png');
+
+        // Load And Create Image From Source
+        $GLOBALS['our_image'] = imagecreatefrompng("./" . $file_name);
+    }
 
     function drawRectangle()
     {
@@ -103,22 +124,37 @@ if (isset($_POST['submit'])) {
    <body>
 
    <form method="post" enctype="multipart/form-data" >
-    <div>
-			<img src="test.png" alt="Girl in a jacket" id="test1" style="width: 80px; height: 80px;">
-			<div class="checkbox">
-				<label for="test1">
-					<input type="checkbox" value="test.png" name="image">
-				</label>
+   <?php
+$imagesDirectory = "image_folder/";
+
+if (is_dir($imagesDirectory)) {
+    $opendirectory = opendir($imagesDirectory);
+
+    while (($image = readdir($opendirectory)) !== false) {
+        if (($image == '.') || ($image == '..')) {
+            continue;
+        }
+
+        $imgFileType = pathinfo($image, PATHINFO_EXTENSION);
+
+        $imagePath = $imagesDirectory . $image;
+        ?>
+			<div>
+				<img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="width: 80px; height: 80px;">
+				<div class="checkbox">
+					<label for="test1">
+						<input type="checkbox" value="<?php echo $imagePath; ?>" name="path">
+						<input type="hidden" value="<?php echo $imgFileType; ?>" name="type">
+					</label>
+				</div>
 			</div>
-		</div>
-		<div>
-			<img src="test.png" alt="Girl in a jacket" id="test2" style="width: 80px; height: 80px;">
-			<div class="checkbox">
-				<label for="test2">
-					<input type="checkbox" value="test.png" name="image">
-				</label>
-			</div>
-		</div>
+			<?php
+}
+
+    closedir($opendirectory);
+
+}
+?>
 		<button type="submit" name="submit">Submit</button>
 	</form>
 

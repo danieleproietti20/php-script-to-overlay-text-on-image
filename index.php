@@ -16,6 +16,11 @@ $marginLeft = 40;
 
 if (isset($_POST['submit'])) {
 
+    if (!isset($_POST['path'])) {
+        var_dump('Please select Image');
+        exit;
+    }
+
     $file_name = $_POST['path'];
     $type = $_POST['type'];
 

@@ -80,7 +80,7 @@ if (is_dir($imagesDirectory)) {
 				<img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="padding: 8px;max-width: 100%; max-height: 100%;" class="image-it">
 				<div class="checkbox">
 					<label for="test1">
-					<input type="hidden" value="<?php echo $imagePath; ?>" name="path" class="select_image custom-control-input" >
+					<input type="checkbox" value="<?php echo $imagePath; ?>" name="path" class="select_image " >
 						<input type="hidden" value="<?php echo $imgFileType; ?>" name="type">
 					</label>
 				</div>
@@ -96,7 +96,7 @@ if (is_dir($imagesDirectory)) {
 </div>
 		<button type="submit" class="btn btn-success">Convert</button>
 	</form>
-	<?php if (isset($_POST['submit'])) {
+	<?php if (isset($_POST['path'])) {
     ?>
 	<img src="image.php?path=<?php echo $_POST['path']; ?>&type=<?php echo $_POST['type']; ?>&top_text=<?php echo $_POST['top_text']; ?>&bottom_text=<?php echo $_POST['bottom_text']; ?>" width="540px" height="540px"/>
 	<?php
@@ -113,9 +113,9 @@ $(document).ready(function () {
 });
 </script>
 <style>
-.selected_image {
+/* .selected_image {
 	border: 2px solid red;
-}
+} */
 </style>
 
    </body>

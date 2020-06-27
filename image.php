@@ -2,7 +2,6 @@
 // Stage 1: Replicate the first image style
 // Stage 2: Replicate the first image style, with the user able to select different background images.
 // Stage 3: Introduce a second image style, with different background images.
-
 $textSpacing = 70;
 $top_text = "LANUNCHING SOON!";
 $bottom_text = "SUBSCRIBE TO UPDATES";
@@ -115,8 +114,9 @@ function drawLogoOnImage()
     imagedestroy($logo_image);
     imagedestroy($origin_logo_image);
 }
-
-// drawRectangle();
+if ($_GET['overlay'] != '') {
+    drawRectangle();
+}
 drawTextOnImage();
 // drawLogoOnImage();
 

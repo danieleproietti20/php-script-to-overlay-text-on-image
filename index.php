@@ -44,67 +44,82 @@
             </form>
 
             <form method="post" enctype="multipart/form-data">
-            <div class="row">
-                <div class="input-group input-group-sm mb-3 col-6">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="top_text">Top Text</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Please insert" aria-describedby="top_text" 
-                    value="<?php if (isset($_POST['top_text'])) {echo $_POST['top_text'];} else  {echo '';}?>" name="top_text" id="top_text" required>
-                </div>
-                <div class="input-group input-group-sm mb-3 col-6">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="bottom_text">Bottom Text</span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Please insert" aria-describedby="bottom_text" 
-                    value="<?php if (isset($_POST['bottom_text'])) {echo $_POST['bottom_text'];} else {echo '';}?>" name="bottom_text" id="bottom_text" required>
-                </div>
-            </div>
-
-            <div class="row">
-            <?php
-                $imagesDirectory = "image_folder/";
-
-                if (is_dir($imagesDirectory)) {
-                    $opendirectory = opendir($imagesDirectory);
-
-                    while (($image = readdir($opendirectory)) !== false) {
-                        if (($image == '.') || ($image == '..')) {
-                            continue;
-                        }
-
-                        $imgFileType = pathinfo($image, PATHINFO_EXTENSION);
-                        if (($imgFileType == 'jpg') || ($imgFileType == 'png') || ($imgFileType == 'jpeg')) {
-                            $imagePath = $imagesDirectory . $image;
-            ?>
-                    <div class="col-sm-4 col-md-4 col-lg-2 " >
-
-                        <img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="padding: 8px;max-width: 100%; max-height: 100%;" class="image-it">
-                        <div class="checkbox">
-                            <label for="test1">
-                            <input type="checkbox" value="<?php echo $imagePath; ?>" name="path" class="select_image " >
-                                <input type="hidden" value="<?php echo $imgFileType; ?>" name="type">
-                            </label>
+                <div class="row">
+                    <div class="input-group input-group-sm mb-3 col-6">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="top_text">Top Text</span>
                         </div>
-                        
+                        <input type="text" class="form-control" placeholder="Please insert" aria-describedby="top_text" 
+                        value="<?php if (isset($_POST['top_text'])) {echo $_POST['top_text'];} else  {echo '';}?>" name="top_text" id="top_text" required>
                     </div>
-            <?php
-                            }
+                    <div class="input-group input-group-sm mb-3 col-6">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="bottom_text">Bottom Text</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Please insert" aria-describedby="bottom_text" 
+                        value="<?php if (isset($_POST['bottom_text'])) {echo $_POST['bottom_text'];} else {echo '';}?>" name="bottom_text" id="bottom_text" required>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="custom-control custom-checkbox ml-4">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1" value="overlay" name="overlay" <?php if (isset($_POST['overlay'])) {echo 'checked';}?> />
+                        <label class="custom-control-label" for="customCheck1">Overlay: black and Logo</label>
+                    </div>
+                </div>
+
+                <?php 
+                    if (isset($_POST['path'])) { 
+                ?>
+                    <h4>Please select Image to overlay</h4>
+                <?php   
                     }
+                ?>
+                <div class="row">
+                    <?php
+                        $imagesDirectory = "image_folder/";
 
-                    closedir($opendirectory);
+                        if (is_dir($imagesDirectory)) {
+                            $opendirectory = opendir($imagesDirectory);
 
-                }
-            ?>
-            </div>
-                    <button type="submit" class="btn btn-success">Convert</button>
-                </form>
+                            while (($image = readdir($opendirectory)) !== false) {
+                                if (($image == '.') || ($image == '..')) {
+                                    continue;
+                                }
+
+                                $imgFileType = pathinfo($image, PATHINFO_EXTENSION);
+                                if (($imgFileType == 'jpg') || ($imgFileType == 'png') || ($imgFileType == 'jpeg')) {
+                                    $imagePath = $imagesDirectory . $image;
+                    ?>
+                            <div class="col-sm-4 col-md-4 col-lg-2 " >
+
+                                <img src="<?php echo $imagePath; ?>" alt="Girl in a jacket" style="padding: 8px;max-width: 100%; max-height: 100%;" class="image-it">
+                                <div class="checkbox">
+                                    <label for="test1">
+                                    <input type="checkbox" value="<?php echo $imagePath; ?>" name="path" class="select_image " >
+                                        <input type="hidden" value="<?php echo $imgFileType; ?>" name="type">
+                                    </label>
+                                </div>
+                                
+                            </div>
+                    <?php
+                                    }
+                            }
+
+                            closedir($opendirectory);
+
+                        }
+                    ?>
+                </div>
+                <button type="submit" class="btn btn-success">Convert</button>
+
+            </form>
 
                 <?php 
                     if (isset($_POST['path'])) {
                 ?>
                 
-                <img src="image.php?path=<?php echo $_POST['path']; ?>&type=<?php echo $_POST['type']; ?>&top_text=<?php echo $_POST['top_text']; ?>&bottom_text=<?php echo $_POST['bottom_text']; ?>" width="540px" height="540px"/>
+                <img src="image.php?path=<?php echo $_POST['path']; ?>&type=<?php echo $_POST['type']; ?>&top_text=<?php echo $_POST['top_text']; ?>&bottom_text=<?php echo $_POST['bottom_text']; ?>&overlay=<?php if (isset($_POST['overlay'])) {echo 'test';} ?>" width="540px" height="540px"/>
                 
                 <?php
                     }

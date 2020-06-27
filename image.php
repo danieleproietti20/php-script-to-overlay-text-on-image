@@ -49,13 +49,14 @@ if ($type == 'png') {
     // Load And Create Image From Source
     $GLOBALS['our_image'] = imagecreatefrompng("./" . $file_name);
 }
+$GLOBALS['height'] = imagesy($GLOBALS['our_image']);
+$GLOBALS['width'] = imagesx($GLOBALS['our_image']);
 
 function drawRectangle()
 {
     $bgcolor = imagecolorallocatealpha($GLOBALS['our_image'], 0, 0, 0, 60);
 
-    $GLOBALS['height'] = imagesy($GLOBALS['our_image']);
-    $GLOBALS['width'] = imagesx($GLOBALS['our_image']);
+    
 
     imagefilledrectangle($GLOBALS['our_image'], 0, $GLOBALS['height'] / 2, $GLOBALS['width'], $GLOBALS['height'], $bgcolor);
 }
@@ -115,7 +116,7 @@ function drawLogoOnImage()
     imagedestroy($origin_logo_image);
 }
 
-drawRectangle();
+// drawRectangle();
 drawTextOnImage();
 // drawLogoOnImage();
 

@@ -97,7 +97,8 @@
                                 <div class="checkbox">
                                     <label for="test1">
                                     <input type="checkbox" value="<?php echo $imagePath; ?>" name="path" class="select_image " >
-                                        <input type="hidden" value="<?php echo $imgFileType; ?>" name="type">
+                                    <input type="hidden" value="<?php echo $imgFileType; ?>" name="type" class="image_type">
+                                    
                                     </label>
                                 </div>
                                 
@@ -119,7 +120,7 @@
                     if (isset($_POST['path'])) {
                 ?>
                 
-                <img src="image.php?path=<?php echo $_POST['path']; ?>&type=<?php echo $_POST['type']; ?>&top_text=<?php echo $_POST['top_text']; ?>&bottom_text=<?php echo $_POST['bottom_text']; ?>&overlay=<?php if (isset($_POST['overlay'])) {echo 'test';} ?>" width="540px" height="540px"/>
+                <img src="image.php?path=<?php echo $_POST['path']; ?>&type=<?php echo $_POST['real_type']; ?>&top_text=<?php echo $_POST['top_text']; ?>&bottom_text=<?php echo $_POST['bottom_text']; ?>&overlay=<?php if (isset($_POST['overlay'])) {echo 'test';} ?>" width="540px" height="540px"/>
                 
                 <?php
                     }
@@ -127,10 +128,16 @@
 
             <script>
                 $(document).ready(function () {
-                    $('img.image-it').on('click', function() {
-                        $(this).addClass('selected_image');
-                        // $('input.select_image').not(this).prop('checked', false);
-                        $('img.image-it').not(this).removeClass('selected_image');
+                    $('input.select_image').on('click', function() {
+                        var value = $('.checkbox').has(this).find('.image_type').val();
+                        // $(this).addClass('selected_image');
+                        $('input.select_image').not(this).prop('checked', false);
+                        $('.checkbox').find('.real_type').remove();
+
+                        var real_type = `<input type="hidden" value="` + value +`" name="real_type" class="real_type">`;
+                        $('.checkbox').has(this).append(real_type);
+                        
+                        // $('img.image-it').not(this).removeClass('selected_image');
                     });
                 });
             </script>

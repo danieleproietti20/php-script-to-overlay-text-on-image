@@ -7,8 +7,8 @@ $top_text = "LANUNCHING SOON!";
 $bottom_text = "SUBSCRIBE TO UPDATES";
 
 $our_image;
-$height;
-$width;
+$height = 1080;
+$width = 1080;
 $top;
 $top2;
 $marginLeft = 40;
@@ -23,10 +23,6 @@ $type = $_GET['type'];
 
 $top_text = strtoupper($_GET['top_text']);
 $bottom_text = strtoupper($_GET['bottom_text']);
-
-// var_dump($file_name);
-// var_dump($type);
-// exit;
 
 if ($type == 'jpg') {
     header('Content-type: image/jpeg');
@@ -48,14 +44,22 @@ if ($type == 'png') {
     // Load And Create Image From Source
     $GLOBALS['our_image'] = imagecreatefrompng("./" . $file_name);
 }
-$GLOBALS['height'] = imagesy($GLOBALS['our_image']);
-$GLOBALS['width'] = imagesx($GLOBALS['our_image']);
+
+
+function imageResize() {
+    $newwidth = 1080;
+    $newheight= 1080;
+    list($width, $height) = getimagesize("./" . $GLOBALS['file_name']);
+
+    $thumb = imagecreatetruecolor($newwidth, $newheight);
+    // Resize
+    imagecopyresized($thumb, $GLOBALS['our_image'], 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
+    $GLOBALS['our_image'] = $thumb;
+}
 
 function drawRectangle()
 {
     $bgcolor = imagecolorallocatealpha($GLOBALS['our_image'], 0, 0, 0, 60);
-
-    
 
     imagefilledrectangle($GLOBALS['our_image'], 0, $GLOBALS['height'] / 2, $GLOBALS['width'], $GLOBALS['height'], $bgcolor);
 }
@@ -95,13 +99,15 @@ function drawTextOnImage()
 
 function drawLogoOnImage()
 {
-    $origin_logo_image = imagecreatefromjpeg("./logo.jpeg");
-    $logo_image = imagecreatetruecolor(imagesx($origin_logo_image) / 2, imagesy($origin_logo_image) / 2);
-
-    imageCopyResampled($logo_image, $origin_logo_image, 0, 0, 0, 0, imagesx($origin_logo_image) / 2, imagesy($origin_logo_image) / 2, imagesx($origin_logo_image), imagesy($origin_logo_image));
+    $origin_logo_image = imagecreatefrompng("./logo-transparent.png");
+    $logo_image = imagecreatetruecolor(imagesx($origin_logo_image) , imagesy($origin_logo_image) );
+    imagealphablending( $logo_image, false );
+    imagesavealpha($logo_image, true);
+ 
+    imageCopyResampled($logo_image, $origin_logo_image, 0, 0, 0, 0, imagesx($origin_logo_image), imagesy($origin_logo_image), imagesx($origin_logo_image), imagesy($origin_logo_image));
 
     $logo_x = $GLOBALS['width'] - (imagesx($logo_image) + $GLOBALS['marginLeft']);
-    $logo_y = $GLOBALS['top2'] + $GLOBALS['textSpacing'];
+    $logo_y = $GLOBALS['top2'] + $GLOBALS['textSpacing'] - 30;
     imagecopy(
         $GLOBALS['our_image'], $logo_image,
         $logo_x,
@@ -114,14 +120,29 @@ function drawLogoOnImage()
     imagedestroy($logo_image);
     imagedestroy($origin_logo_image);
 }
+
+
+imageResize();
+
 if ($_GET['overlay'] != '') {
     drawRectangle();
 }
+
 drawTextOnImage();
-// drawLogoOnImage();
+
+if ($_GET['overlay'] != '') {
+    drawLogoOnImage();
+}
 
 // Send Image to Browser
-imagepng($our_image);
+
+if ($type == 'jpeg' || $type == 'jpg') {
+    imagejpeg($our_image);
+}
+
+if ($type == 'png') {
+    imagepng($our_image);
+}
 
 // Clear Memory
 imagedestroy($our_image);
